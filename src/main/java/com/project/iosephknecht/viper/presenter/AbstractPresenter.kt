@@ -1,12 +1,11 @@
 package com.project.iosephknecht.viper.presenter
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.project.iosephknecht.viper.removeObservers
 import com.project.iosephknecht.viper.view.AndroidComponent
 
-abstract class AbstractPresenter(application: Application) : AndroidViewModel(application), MvpPresenter {
+abstract class AbstractPresenter : ViewModel(), MvpPresenter {
 
     final override var androidComponent: AndroidComponent? = null
     private val observers = mutableListOf<LiveData<*>>()
