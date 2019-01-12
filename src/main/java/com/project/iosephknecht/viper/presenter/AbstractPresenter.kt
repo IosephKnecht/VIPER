@@ -1,8 +1,8 @@
 package com.project.iosephknecht.viper.presenter
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import com.project.iosephknecht.viper.removeObservers
 import com.project.iosephknecht.viper.view.AndroidComponent
 

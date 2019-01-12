@@ -1,8 +1,8 @@
 package com.project.iosephknecht.viper
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.project.iosephknecht.viper.view.AbstractActivity
 import com.project.iosephknecht.viper.view.AbstractFragment
 import com.project.iosephknecht.viper.view.AndroidComponent
