@@ -10,6 +10,8 @@ import io.reactivex.schedulers.Schedulers
 abstract class AbstractInteractor<L : MvpInteractor.Listener> : MvpInteractor<L> {
     private var listener: L? = null
 
+    protected fun getListener() = listener
+
     override fun setListener(listener: L?) {
         this.listener = listener
     }
