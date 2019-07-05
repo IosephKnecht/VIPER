@@ -14,4 +14,9 @@ abstract class AbstractPresenter : ViewModel(), MvpPresenter {
     override fun detachAndroidComponent() {
         androidComponent = null
     }
+
+    override fun onCleared() {
+        onDestroy()
+        super.onCleared()
+    }
 }

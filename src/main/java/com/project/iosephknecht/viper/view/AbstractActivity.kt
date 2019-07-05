@@ -34,9 +34,4 @@ abstract class AbstractActivity<P : MvpPresenter> : AppCompatActivity(), Android
         presenter.detachAndroidComponent()
         super.onStop()
     }
-
-    override fun onDestroy() {
-        presenter.onDestroy()
-        super.onDestroy()
-    }
 }

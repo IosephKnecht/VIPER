@@ -34,9 +34,4 @@ abstract class AbstractFragment<P : MvpPresenter> : Fragment(), AndroidComponent
         presenter.detachAndroidComponent()
         super.onStop()
     }
-
-    override fun onDestroy() {
-        presenter.onDestroy()
-        super.onDestroy()
-    }
 }
