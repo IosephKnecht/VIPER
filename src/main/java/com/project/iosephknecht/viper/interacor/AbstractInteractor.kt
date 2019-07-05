@@ -4,7 +4,8 @@ import kotlinx.coroutines.*
 
 abstract class AbstractInteractor<L : MvpInteractor.Listener> : MvpInteractor<L> {
     private var listener: L? = null
-    private val interactorScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    protected open val interactorScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     protected fun getListener() = listener
 
@@ -18,8 +19,8 @@ abstract class AbstractInteractor<L : MvpInteractor.Listener> : MvpInteractor<L>
     }
 
     protected fun <R> discardResult(asyncBlock: suspend CoroutineScope.() -> R,
-                                    resultBlock: (listener: L?, result: PendingResult<R>) -> Unit) {
-        interactorScope.launch {
+                                    resultBlock: (listener: L?, result: PendingResult<R>) -> Unit): Job {
+        return interactorScope.launch {
             val result: PendingResult<R> = try {
                 val data = asyncBlock.invoke(this)
                 PendingResult(data = data)
