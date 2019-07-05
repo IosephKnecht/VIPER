@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test:runner:$rootProject.ext.testRunnerVersionX"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.appCompatVersionX"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.lifecycleVersionX"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$rootProject.ext.lifecycleVersionX"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJavaVersion"
+
+    testImplementation "junit:junit:$rootProject.ext.jUnitVersion"
+    androidTestImplementation "androidx.test:runner:$rootProject.ext.testRunnerVersionX"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoVersionX"
+}
