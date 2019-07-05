@@ -1,14 +1,10 @@
 package com.project.iosephknecht.viper.interacor
 
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.*
 
 abstract class AbstractInteractor<L : MvpInteractor.Listener> : MvpInteractor<L> {
     private var listener: L? = null
+    private val interactorScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     protected fun getListener() = listener
 
@@ -18,43 +14,27 @@ abstract class AbstractInteractor<L : MvpInteractor.Listener> : MvpInteractor<L>
 
     override fun onDestroy() {
         listener = null
+        interactorScope.cancel()
     }
 
-    protected fun <R, O : Observable<R>> discardResult(
-        observable: O,
-        block: (listener: L?, result: PendingResult<R>) -> Unit
-    ): Disposable {
-        return observable.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError { block(listener, PendingResult(null, it)) }
-            .subscribe({ block(listener, PendingResult(it, null)) },
-                { it.printStackTrace() })
-    }
+    protected fun <R> discardResult(asyncBlock: suspend CoroutineScope.() -> R,
+                                    resultBlock: (listener: L?, result: PendingResult<R>) -> Unit) {
+        interactorScope.launch {
+            val result: PendingResult<R> = try {
+                val data = asyncBlock.invoke(this)
+                PendingResult(data = data)
+            } catch (throwable: Throwable) {
+                PendingResult(throwable = throwable)
+            }
 
-    protected fun <R, O : Single<R>> discardResult(
-        observable: O,
-        block: (listener: L?, result: PendingResult<R>) -> Unit
-    ): Disposable {
-        return observable.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError { block(listener, PendingResult(null, it)) }
-            .subscribe({ block(listener, PendingResult(it, null)) },
-                { it.printStackTrace() })
-    }
-
-    protected fun discardResult(
-        completable: Completable,
-        block: (listener: L?, throwable: Throwable?) -> Unit
-    ): Disposable {
-        return completable.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError { block(listener, it) }
-            .subscribe({ block(listener, null) },
-                { it.printStackTrace() })
+            withContext(Dispatchers.Main) {
+                resultBlock.invoke(listener, result)
+            }
+        }
     }
 
     data class PendingResult<R>(
-        val data: R?,
-        val throwable: Throwable?
+        val data: R? = null,
+        val throwable: Throwable? = null
     )
 }

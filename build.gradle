@@ -28,8 +28,7 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.lifecycleVersionX"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$rootProject.ext.lifecycleVersionX"
-    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
-    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJavaVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.coroutineVersion"
 
     testImplementation "junit:junit:$rootProject.ext.jUnitVersion"
     androidTestImplementation "androidx.test:runner:$rootProject.ext.testRunnerVersionX"
