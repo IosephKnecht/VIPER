@@ -1,8 +1,8 @@
 package com.project.iosephknecht.viper.view
 
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 
 interface AndroidComponent {
     val activityComponent: AppCompatActivity?
